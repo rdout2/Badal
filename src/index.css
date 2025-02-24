@@ -44,14 +44,23 @@ body {
   color: #FFC107; /* Jaune */
 }
 
+.currency-converter .converter-form {
+  margin-top: 45px; /* Correction ajout px */
+}
+
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 50px;
   text-align: left;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between; /* Espacement équilibré */
+  gap: 10px;
 }
 
 .form-label {
   font-size: 16px;
-  color: #E91E63; /* Rose */
+  color: white;
 }
 
 .form-input {
@@ -64,13 +73,24 @@ body {
   color: white;
 }
 
+.currency-converter .converter-form .form-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 .currency-select {
   display: flex;
-  align-items: center;
+  flex-direction: row; /* Alignement horizontal */
+  align-items: center; /* Alignement vertical */
+  justify-content: flex-start;
   gap: 10px;
   background: rgba(255, 255, 255, 0.1);
   padding: 10px;
   border-radius: 6px;
+  width: 100%;
 }
 
 .currency-dropdown {
