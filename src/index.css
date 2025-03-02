@@ -44,66 +44,99 @@ body {
   color: #FFC107; /* Jaune */
 }
 
-.currency-converter .converter-form {
-  margin-top: 45px; /* Correction ajout px */
+.converter-form {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .form-group {
-  margin-bottom: 50px;
-  text-align: left;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between; /* Espacement équilibré */
+  flex-direction: column;
+  align-items: flex-start;
   gap: 10px;
 }
 
 .form-label {
   font-size: 16px;
-  color: white;
+  color: #ffffff;
+  font-weight: 500;
 }
 
 .form-input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   border-radius: 6px;
   border: 1px solid #673AB7; /* Violet foncé */
   background: rgba(255, 255, 255, 0.1);
   color: white;
+  text-align: center;
 }
 
-.currency-converter .converter-form .form-group {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+.form-input:focus {
+  outline: none;
+  border: 1px solid #FFC107;
 }
 
 .currency-select {
   display: flex;
   flex-direction: row; /* Alignement horizontal */
   align-items: center; /* Alignement vertical */
-  justify-content: flex-start;
   gap: 10px;
   background: rgba(255, 255, 255, 0.1);
   padding: 10px;
   border-radius: 6px;
   width: 100%;
+  
+}
+
+.currency-select img {
+  width: 32px;
+  height: 32px;
+  border-radius: 5px;
+  
 }
 
 .currency-dropdown {
   background: transparent;
   border: none;
-  color: white;
+  color: rgb(235, 226, 226); /* Assurer que le texte soit bien visible */
   font-size: 16px;
+  width: 100%;
+  cursor: pointer;
+  appearance: none; /* Supprime le style par défaut des sélecteurs */
+  padding: 8px;
+}
+
+/* Amélioration pour la liste déroulante */
+.currency-dropdown option {
+  background: white;
+  color: black;
+}
+
+
+.currency-dropdown:focus {
+  outline: none;
+}
+
+.swap-icon {
+  font-size: 1.8rem;
+  color: #FFC107;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  margin: 15px auto;
+}
+
+.swap-icon:hover {
+  transform: rotate(180deg);
 }
 
 .submit-button {
   background: linear-gradient(45deg, #00BCD4, #E91E63);
   color: white;
-  padding: 12px;
+  padding: 14px;
   border: none;
   border-radius: 6px;
   font-size: 16px;
@@ -121,4 +154,7 @@ body {
   font-size: 18px;
   font-weight: bold;
   color: #FFC107;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 6px;
 }

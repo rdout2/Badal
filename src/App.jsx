@@ -1,21 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+const currencyToCountry = {
+  XAF: "CM", // Cameroun (FCFA BEAC)
+  XOF: "SN", // Sénégal (FCFA BCEAO)
+  NGN: "NG", // Nigeria
+  EGP: "EG", // Égypte
+  ZAR: "ZA", // Afrique du Sud
+  KES: "KE", // Kenya
+  GHS: "GH", // Ghana
+  DZD: "DZ", // Algérie
+  MAD: "MA", // Maroc
+  TND: "TN", // Tunisie
+  USD: "US", // États-Unis
+  EUR: "EU", // Union Européenne (drapeau alternatif)
+  GBP: "GB", // Royaume-Uni
+  JPY: "JP", // Japon
+  CNY: "CN", // Chine
+};
+
+const africanCurrencies = [
+  { code: 'XAF', name: 'CFA Franc BEAC' },
+  { code: 'XOF', name: 'CFA Franc BCEAO' },
+  { code: 'NGN', name: 'Nigerian Naira' },
+  { code: 'EGP', name: 'Egyptian Pound' },
+  { code: 'ZAR', name: 'South African Rand' },
+  { code: 'KES', name: 'Kenyan Shilling' },
+  { code: 'GHS', name: 'Ghanaian Cedi' },
+  { code: 'DZD', name: 'Algerian Dinar' },
+  { code: 'MAD', name: 'Moroccan Dirham' },
+  { code: 'TND', name: 'Tunisian Dinar' }
+];
+
+const globalCurrencies = [
+  { code: 'USD', name: 'US Dollar' },
+  { code: 'EUR', name: 'Euro' },
+  { code: 'GBP', name: 'British Pound' },
+  { code: 'JPY', name: 'Japanese Yen' },
+  { code: 'CNY', name: 'Chinese Yuan' }
+];
+
+const allCurrencies = [...africanCurrencies, ...globalCurrencies];
 
 function App() {
   const [amount, setAmount] = useState('');
+  const [fromCurrency, setFromCurrency] = useState('USD');
+  const [toCurrency, setToCurrency] = useState('XAF');
+  const [exchangeRate, setExchangeRate] = useState(null);
+
+  useEffect(() => {
+    if (fromCurrency && toCurrency) {
+      fetch(`https://api.exchangerate-api.com/v4/latest/${fromCurrency}`)
+        .then(response => response.json())
+        .then(data => {
+          setExchangeRate(data.rates[toCurrency]);
+        })
+        .catch(error => console.error('Error fetching exchange rate:', error));
+    }
+  }, [fromCurrency, toCurrency]);
+
+  const handleConvert = (e) => {
+    e.preventDefault();
+    if (!amount) return;
+  };
 
   return (
     <div className='currency-converter'>
       <h2 className='converter-title'>Currency Converter</h2>
-      <form className="converter-form">
+      <form className='converter-form' onSubmit={handleConvert}>
         <div className='form-group'>
           <label htmlFor='amount' className='form-label'>Enter Amount</label>
           <input 
-            type="number" 
-            id="amount"
-            className="form-input" 
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            required
+            type='number' 
+            id='amount' 
+            className='form-input' 
+            value={amount} 
+            onChange={(e) => setAmount(e.target.value)} 
+            required 
           />
         </div>
 
@@ -23,39 +83,36 @@ function App() {
           <div className='form-section'>
             <label className='form-label'>From</label>
             <div className='currency-select'>
-              <img src='https://flagsapi.com/US/flat/64.png' alt='Flag' />
-              <select className='currency-dropdown'>
-                <option value={'USD'} selected>USD</option>
-                <option value={'INR'}>INR</option>
-                <option value={'NPR'}>NPR</option>
+              <img src={`https://flagsapi.com/${currencyToCountry[fromCurrency]}/flat/64.png`} alt={`${fromCurrency} Flag`} />
+              <select className='currency-dropdown' value={fromCurrency} onChange={(e) => setFromCurrency(e.target.value)}>
+                {allCurrencies.map((currency) => (
+                  <option key={currency.code} value={currency.code}>{currency.name} ({currency.code})</option>
+                ))}
               </select>
             </div>
           </div>
 
-          <div className="swap-icon">
-            <svg width="16" viewBox="0 0 20 19" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M19.13 11.66H.22a.22.22 0 0 0-.22.22v1.62a.22.22 0 0 0 .22.22h16.45l-3.92 4.94a.22.22 0 0 0 .17.35h1.97c.13 0 .25-.06.33-.16l4.59-5.78a.9.9 0 0 0-.7-1.43zM19.78 5.29H3.34L7.26 3.5A.22.22 0 0 0 7.09 0H5.12a.22.22 0 0 0-.34.16L.19 5.94a.9.9 0 0 0 .68 1.4H19.78a.22.22 0 0 0 .22-.22V5.51a.22.22 0 0 0-.22-.22z"
-                fill="#000"
-              />
-            </svg>
+          <div className='swap-icon' onClick={() => { setFromCurrency(toCurrency); setToCurrency(fromCurrency); }}>
+            ↔
           </div>
 
           <div className='form-section'>
             <label className='form-label'>To</label>
             <div className='currency-select'>
-              <img src='https://flagsapi.com/TD/flat/64.png' alt='Flag' />
-              <select className='currency-dropdown'>
-                <option value={'USD'}>USD</option>
-                <option value={'XFA'} selected>FCFA</option>
-                <option value={'NPR'}>NPR</option>
+              <img src={`https://flagsapi.com/${currencyToCountry[toCurrency]}/flat/64.png`} alt={`${toCurrency} Flag`} />
+              <select className='currency-dropdown' value={toCurrency} onChange={(e) => setToCurrency(e.target.value)}>
+                {allCurrencies.map((currency) => (
+                  <option key={currency.code} value={currency.code}>{currency.name} ({currency.code})</option>
+                ))}
               </select>
             </div>
           </div>
         </div>
 
         <button type='submit' className='submit-button'>Get Exchange Rate</button>
-        <p className="exchange-rate-result">1,000 USD = 655.55 XFA</p>
+        {exchangeRate && amount && (
+          <p className='exchange-rate-result'>{amount} {fromCurrency} = {(amount * exchangeRate).toFixed(2)} {toCurrency}</p>
+        )}
       </form>
     </div>
   );
