@@ -12,7 +12,7 @@ const currencyToCountry = {
   MAD: "MA", // Maroc
   TND: "TN", // Tunisie
   USD: "US", // États-Unis
-  EUR: "EU", // Union Européenne (drapeau alternatif)
+  EUR: "FR", // Union Européenne (drapeau alternatif)
   GBP: "GB", // Royaume-Uni
   JPY: "JP", // Japon
   CNY: "CN", // Chine
@@ -46,6 +46,7 @@ function App() {
   const [fromCurrency, setFromCurrency] = useState('USD');
   const [toCurrency, setToCurrency] = useState('XAF');
   const [exchangeRate, setExchangeRate] = useState(null);
+  const [convertedAmount, setConvertedAmount] = useState(null);
 
   useEffect(() => {
     if (fromCurrency && toCurrency) {
@@ -60,7 +61,8 @@ function App() {
 
   const handleConvert = (e) => {
     e.preventDefault();
-    if (!amount) return;
+    if (!amount || !exchangeRate) return;
+    setConvertedAmount((amount * exchangeRate).toFixed(2));
   };
 
   return (
@@ -84,7 +86,7 @@ function App() {
             <label className='form-label'>From</label>
             <div className='currency-select'>
               <img src={`https://flagsapi.com/${currencyToCountry[fromCurrency]}/flat/64.png`} alt={`${fromCurrency} Flag`} />
-              <select className='currency-dropdown' value={fromCurrency} onChange={(e) => setFromCurrency(e.target.value)}>
+              <select className='currency-dropdown' style={{ color: 'black' }} value={fromCurrency} onChange={(e) => setFromCurrency(e.target.value)}>
                 {allCurrencies.map((currency) => (
                   <option key={currency.code} value={currency.code}>{currency.name} ({currency.code})</option>
                 ))}
@@ -100,7 +102,7 @@ function App() {
             <label className='form-label'>To</label>
             <div className='currency-select'>
               <img src={`https://flagsapi.com/${currencyToCountry[toCurrency]}/flat/64.png`} alt={`${toCurrency} Flag`} />
-              <select className='currency-dropdown' value={toCurrency} onChange={(e) => setToCurrency(e.target.value)}>
+              <select className='currency-dropdown' style={{ color: 'black' }} value={toCurrency} onChange={(e) => setToCurrency(e.target.value)}>
                 {allCurrencies.map((currency) => (
                   <option key={currency.code} value={currency.code}>{currency.name} ({currency.code})</option>
                 ))}
@@ -110,8 +112,8 @@ function App() {
         </div>
 
         <button type='submit' className='submit-button'>Get Exchange Rate</button>
-        {exchangeRate && amount && (
-          <p className='exchange-rate-result'>{amount} {fromCurrency} = {(amount * exchangeRate).toFixed(2)} {toCurrency}</p>
+        {convertedAmount && (
+          <p className='exchange-rate-result'>{amount} {fromCurrency} = {convertedAmount} {toCurrency}</p>
         )}
       </form>
     </div>

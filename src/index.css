@@ -102,7 +102,7 @@ body {
 .currency-dropdown {
   background: transparent;
   border: none;
-  color: rgb(235, 226, 226); /* Assurer que le texte soit bien visible */
+  color: rgb(223, 191, 191); /* Assurer que le texte soit bien visible */
   font-size: 16px;
   width: 100%;
   cursor: pointer;
