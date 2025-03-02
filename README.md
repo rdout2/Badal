@@ -181,7 +181,7 @@ Ce projet est une application de conversion de devises qui permet aux utilisateu
 
 1. **Clone the project (Cloner le projet)**
    ```sh
-   git clone https://github.com/votre-repository.git
+   git clone https://github.com/rdout2/Badal.git
    ```
 2. **Navigate to the project folder (Accéder au dossier du projet)**
    ```sh
