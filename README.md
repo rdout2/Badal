@@ -101,8 +101,6 @@ Ce projet est une application de conversion de devises qui permet aux utilisateu
 
 
 
-  git clone https\://github.com/votre-repository.git
-
 
 
   Navigate to the project folder (Accéder au dossier du projet)
